@@ -1,6 +1,6 @@
 # frequencyDistribution
 
-This project computes frequency distributions and related statistics for a given dataset.
+>This project computes frequency distributions and related statistics for a given dataset based on desired number of classes of the user.
 
 ## Files
 

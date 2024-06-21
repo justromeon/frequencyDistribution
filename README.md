@@ -56,25 +56,26 @@ This file contains helper functions used in Main.hs.
 ### Example
 
 #### Input
-
-Input:
-10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+<p>
+Input:<br />
+10, 20, 30, 40, 50, 60, 70, 80, 90, 100<br />
 5
 
 #### Output
-Sample size:
-10
-Range:
-90
-Class intervals:
-[(10,19),(20,29),(30,39),(40,49),(50,59)]
-Frequency:
-[1,1,1,1,1]
-Midpoints:
-[14.5,24.5,34.5,44.5,54.5]
-Cumulative f:
-[1,2,3,4,5]
-Relative f:
-[0.1,0.1,0.1,0.1,0.1]
-Class boundaries:
+Sample size:<br />
+10<br />
+Range:<br />
+90<br />
+Class intervals:<br />
+[(10,19),(20,29),(30,39),(40,49),(50,59)]<br />
+Frequency:<br />
+[1,1,1,1,1]<br />
+Midpoints:<br />
+[14.5,24.5,34.5,44.5,54.5]<br />
+Cumulative f:<br />
+[1,2,3,4,5]<br />
+Relative f:<br />
+[0.1,0.1,0.1,0.1,0.1]<br />
+Class boundaries:<br />
 [(9.5,19.5),(19.5,29.5),(29.5,39.5),(39.5,49.5),(49.5,59.5)]
+</p>

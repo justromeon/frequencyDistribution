@@ -6,46 +6,51 @@ import Data.List
 import Data.Maybe
 import Text.Read
 
---Helper functions
-getCW :: Integer -> Integer -> Integer
-getCW r nc
+type ClassWidth = Integer
+type ClassInterval = (Integer, Integer)
+type MidPoint = Double
+type Frequency = Integer
+type ClassBoundary = (Double, Double)
+
+classWidth :: Integer -> Integer -> ClassWidth
+classWidth range classNum
     | isInt result = round result
     | otherwise    = ceiling result
   where
     isInt  = ap (==) (fromInteger . round)
-    result = fromIntegral r / fromIntegral nc :: Double
+    result = fromIntegral range / fromIntegral classNum :: Double
 
-getClasses :: Integer -> [Integer] -> [(Integer,Integer)]
-getClasses cw ds = zip lowerLimits upperLimits
+classes :: ClassWidth -> [Integer] -> [ClassInterval]
+classes cw dataset = zip lowerLimits upperLimits
   where
-    lowerLimits = takeWhile (<=highest) $ iterate (+cw) (head ds)
-    upperLimits = take (length lowerLimits) $ iterate (+cw) $ (lowerLimits !! 1) - 1
-    highest     = last ds
+    lowerLimits = takeWhile (<= highest) $ iterate (+ cw) (head dataset)
+    upperLimits = take (length lowerLimits) $ iterate (+ cw) (lowerLimits !! 1 - 1)
+    highest     = last dataset
 
-getMids :: [(Integer,Integer)] -> [Float]
-getMids = map ((/2) . fromIntegral)
-        . uncurry (zipWith (+))
-        . unzip
+midpoints :: [ClassInterval] -> [MidPoint]
+midpoints = map ((/2) . fromIntegral)
+          . uncurry (zipWith (+))
+          . unzip
 
-getF :: [Integer] -> [(Integer,Integer)] -> [Integer]
-getF ds = map ((toInteger . length) . includes ds)
-         where
-           includes list tup = [x | x <- list , x >= fst tup, x <= snd tup]
-
-getRelativeF :: Int -> [Integer] -> [Float]
-getRelativeF total freq = map (/t') f'
+frequencies :: [Integer] -> [ClassInterval] -> [Frequency]
+frequencies dataset = map ((toInteger . length) . includes dataset)
   where
-    t' = fromIntegral total
+    includes list tup = [x | x <- list, x >= fst tup, x <= snd tup]
+
+relativeFreqs :: Int -> [Frequency] -> [Float]
+relativeFreqs sampleSize freq = map (/t') f'
+  where
+    t' = fromIntegral sampleSize
     f' = map fromIntegral freq
 
-getClassB :: [(Integer, Integer)] -> [(Double, Double)]
-getClassB = map (lwrBound *** upprBound)
+classBounds :: [ClassInterval] -> [ClassBoundary]
+classBounds = map (lwrBound *** upprBound)
   where
     lwrBound  = subtract 0.5 . fromInteger
     upprBound = (+ 0.5) . fromInteger
 
-parseNumbers :: String -> [Integer]
-parseNumbers = sort . mapMaybe readMaybe . words . map (\x -> if x == ',' then ' ' else x)
+parseDataSet :: String -> [Integer]
+parseDataSet = sort . mapMaybe readMaybe . words . map (\x -> if x == ',' then ' ' else x)
 
 parseClassNum :: String -> Maybe Integer
 parseClassNum = readMaybe

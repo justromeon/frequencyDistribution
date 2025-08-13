@@ -15,19 +15,19 @@ main = do
 fileMode :: FilePath -> IO ()
 fileMode filePath = do
     content <- readFile filePath
-    let parsedNums = parseNumbers content
+    let parsedNums = parseDataSet content
     if null parsedNums
       then hPutStrLn stderr "Error: The file contains no valid numbers. Please check the file content."
-     else processNums parsedNums
+      else processNums parsedNums
 
 interactiveMode :: IO ()
 interactiveMode = do
     putStrLn "Welcome! Please input data set (separated by spaces or commas):"
     input <- getLine
-    let numbers = parseNumbers input
+    let numbers = parseDataSet input
     if null numbers
-    then putStrLn "Program exiting due to invalid input."
-    else processNums numbers
+      then putStrLn "Program exiting due to invalid input."
+      else processNums numbers
 
 processNums :: [Integer] -> IO ()
 processNums numbers = do
@@ -35,18 +35,21 @@ processNums numbers = do
     classNumInp <- getLine
     case parseClassNum classNumInp of
         Nothing -> putStrLn "Error: Invalid number of classes provided. Program exiting."
-        Just numOfC -> do
-            let total     = length numbers
-                range     = last numbers - head numbers
-                cWidth    = getCW range numOfC
-                classes   = getClasses cWidth numbers
-                frequency = getF numbers classes
+        Just clasNum -> do
+            let sampleSize     = length numbers
+                range          = last numbers - head numbers
+                width          = classWidth range clasNum
+                classesRes     = classes width numbers
+                frequenciesRes = frequencies numbers classesRes
             
-            putStrLn $ "Sample size:\n"      ++ show total
-            putStrLn $ "Range:\n"            ++ show range
-            putStrLn $ "Class intervals:\n"  ++ show classes
-            putStrLn $ "Frequency:\n"        ++ show frequency
-            putStrLn $ "Midpoints:\n"        ++ show (getMids classes)
-            putStrLn $ "Cumulative f:\n"     ++ show (scanl1 (+) frequency)
-            putStrLn $ "Relative f:\n"       ++ show (getRelativeF total frequency)
-            putStrLn $ "Class boundaries:\n" ++ show (getClassB classes)
+            mapM_ putStrLn
+              [ "\n Sample size:\n"      ++ show sampleSize
+              , "\n Range:\n"            ++ show range
+              , "\n Class Width:\n"      ++ show width
+              , "\n Class intervals:\n"  ++ show classesRes
+              , "\n Frequencies:\n"      ++ show frequenciesRes
+              , "\n Midpoints:\n"        ++ show (midpoints classesRes)
+              , "\n Cumulative f:\n"     ++ show (scanl1 (+) frequenciesRes)
+              , "\n Relative f:\n"       ++ show (relativeFreqs sampleSize frequenciesRes)
+              , "\n Class boundaries:\n" ++ show (classBounds classesRes)
+              ]

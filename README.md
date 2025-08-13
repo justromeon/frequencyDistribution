@@ -1,81 +1,81 @@
 # frequencyDistribution
 
-This project computes frequency distributions and related statistics for a given dataset.
+A command-line tool written in Haskell that calculates and displays a frequency distribution for a given set of numbers. It supports both file-based input and an interactive mode.
 
-## Files
+## Features
 
-### Main.hs
+- **Calculates a comprehensive frequency distribution**, including:
+  - Sample Size
+  - Range
+  - Class Width
+  - Class Intervals
+  - Frequencies
+  - Midpoints
+  - Cumulative Frequencies
+  - Relative Frequencies
+  - Class Boundaries
 
-This file contains the main executable code.
+## Requirements
 
-#### Functionality
+You will need to have Haskell and Cabal installed to build and run the project. You can find instructions for installation on the [Haskell website](https://www.haskell.org/downloads/).
 
-- **Input Parsing**
-  - `parseList :: String -> [Integer]`: Parses a comma-separated string of numbers into a sorted list of integers.
-  - `parsetoInt :: String -> Integer`: Converts a string into an integer.
+To get started, clone the repository and navigate into the project directory:
 
-- **Main Function**
-  - Executes the main logic of the program:
-    - Prompts the user to input a dataset and number of classes.
-    - Calculates statistics such as sample size, range, class intervals, frequencies, midpoints, cumulative frequencies, relative frequencies, and class boundaries.
-    - Displays all computed statistics.
-
-### MyLib.hs
-
-This file contains helper functions used in Main.hs.
-
-#### Functions
-
-- **getCW :: Integer -> Integer -> Integer**: Calculates the class width given the range and number of classes.
-- **getClasses :: Integer -> [Integer] -> [(Integer,Integer)]**: Generates class intervals based on the class width and dataset.
-- **getMids :: [(Integer,Integer)] -> [Float]**: Computes midpoints for each class interval.
-- **getF :: [Integer] -> [(Integer,Integer)] -> [Integer]**: Computes frequencies of data points within each class interval.
-- **getRelativeF :: Int -> [Integer] -> [Float]**: Calculates relative frequencies based on total sample size and frequency.
-- **getClassB :: [(Integer, Integer)] -> [(Double, Double)]**: Computes class boundaries for each class interval.
+```bash
+git clone https://github.com/justromeon/frequencyDistribution.git
+cd codingbat
+```
 
 ## Usage
 
-### Running the Program
+The program can be run in two modes:
 
-1. **Setup**
-   - Ensure you have GHC installed.
+### 1. Interactive Mode
 
-2. **Build**
-   - Navigate to the project directory and run:
-     ```bash
-     cabal build
-     ```
+Run the program without any arguments to enter the interactive mode. The program will prompt you to input the data set and the number of classes directly.
 
-3. **Execute**
-   - After building, run the executable:
-     ```bash
-     cabal run frequencyDistribution
-     ```
-   - Follow the prompts to input your dataset and number of classes.
+```sh
+cabal run
+```
 
-### Example
+### 2. File Mode
 
-#### Input
-<p>
-Input:<br />
-10, 20, 30, 40, 50, 60, 70, 80, 90, 100<br />
-5
+Provide the path to a data file and the desired number of classes as command-line arguments. The data file should contain numbers separated by spaces or commas.
 
-#### Output
-Sample size:<br />
-10<br />
-Range:<br />
-90<br />
-Class intervals:<br />
-[(10,19),(20,29),(30,39),(40,49),(50,59)]<br />
-Frequency:<br />
-[1,1,1,1,1]<br />
-Midpoints:<br />
-[14.5,24.5,34.5,44.5,54.5]<br />
-Cumulative f:<br />
-[1,2,3,4,5]<br />
-Relative f:<br />
-[0.1,0.1,0.1,0.1,0.1]<br />
-Class boundaries:<br />
-[(9.5,19.5),(19.5,29.5),(29.5,39.5),(39.5,49.5),(49.5,59.5)]
-</p>
+```sh
+cabal run frequencyDistribution -- <file_path> <number_of_classes>
+```
+
+**Example:**
+
+```sh
+cabal run frequencyDistribution -- sample.txt 5
+```
+
+This will produce an output similar to the following:
+
+```
+Sample size: 10
+
+Range: 23
+
+Class Width: 5
+
+Class intervals:
+[(2,6),(7,11),(12,16),(17,21),(22,26)]
+
+Frequencies:
+[2,2,2,2,2]
+
+Midpoints:
+[4.0,9.0,14.0,19.0,24.0]
+
+Cumulative f:
+[2,4,6,8,10]
+
+Relative f:
+[0.2,0.2,0.2,0.2,0.2]
+
+Class boundaries:
+[(1.5,6.5),(6.5,11.5),(11.5,16.5),(16.5,21.5),(21.5,26.5)]
+```

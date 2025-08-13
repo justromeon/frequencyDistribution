@@ -2,6 +2,9 @@ module MyLib where
 
 import Control.Arrow ((***))
 import Control.Monad (ap)
+import Data.List
+import Data.Maybe
+import Text.Read
 
 --Helper functions
 getCW :: Integer -> Integer -> Integer
@@ -40,3 +43,9 @@ getClassB = map (lwrBound *** upprBound)
   where
     lwrBound  = subtract 0.5 . fromInteger
     upprBound = (+ 0.5) . fromInteger
+
+parseNumbers :: String -> [Integer]
+parseNumbers = sort . mapMaybe readMaybe . words . map (\x -> if x == ',' then ' ' else x)
+
+parseClassNum :: String -> Maybe Integer
+parseClassNum = readMaybe

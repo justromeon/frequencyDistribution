@@ -3,7 +3,6 @@ module MyLib where
 import Control.Arrow ((***))
 import Control.Monad (ap)
 import Data.List
-import Data.Maybe
 import Text.Read
 
 type ClassWidth = Integer
@@ -49,8 +48,8 @@ classBounds = map (lwrBound *** upprBound)
     lwrBound  = subtract 0.5 . fromInteger
     upprBound = (+ 0.5) . fromInteger
 
-parseDataSet :: String -> [Integer]
-parseDataSet = sort . mapMaybe readMaybe . words . map (\x -> if x == ',' then ' ' else x)
+parseDataSet :: String -> Maybe [Integer]
+parseDataSet = fmap sort . traverse readMaybe . words . map (\x -> if x == ',' then ' ' else x)
 
 parseClassNum :: String -> Maybe Integer
 parseClassNum = readMaybe

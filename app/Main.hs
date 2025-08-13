@@ -43,13 +43,13 @@ processNums numbers = do
                 frequenciesRes = frequencies numbers classesRes
             
             mapM_ putStrLn
-              [ "\n Sample size:\n"      ++ show sampleSize
-              , "\n Range:\n"            ++ show range
-              , "\n Class Width:\n"      ++ show width
-              , "\n Class intervals:\n"  ++ show classesRes
-              , "\n Frequencies:\n"      ++ show frequenciesRes
-              , "\n Midpoints:\n"        ++ show (midpoints classesRes)
-              , "\n Cumulative f:\n"     ++ show (scanl1 (+) frequenciesRes)
-              , "\n Relative f:\n"       ++ show (relativeFreqs sampleSize frequenciesRes)
-              , "\n Class boundaries:\n" ++ show (classBounds classesRes)
+              [ "\nSample size: "       ++ show sampleSize
+              , "\nRange: "             ++ show range
+              , "\nClass Width: "       ++ show width
+              , "\nClass intervals:\n"  ++ show classesRes
+              , "\nFrequencies:\n"      ++ show frequenciesRes
+              , "\nMidpoints:\n"        ++ show (midpoints classesRes)
+              , "\nCumulative f:\n"     ++ show (scanl1 (+) frequenciesRes)
+              , "\nRelative f:\n"       ++ show (relativeFreqs sampleSize frequenciesRes)
+              , "\nClass boundaries:\n" ++ show (classBounds classesRes)
               ]
